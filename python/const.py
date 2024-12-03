@@ -1,9 +1,18 @@
-CELL_SIZE = 30
-WIDTH = 800
-HEIGHT = 650
-MAX_SCORE = 10000
-X = int(WIDTH / CELL_SIZE)
-Y = int(HEIGHT / CELL_SIZE)
+
+ALL_WIDTH = 800;
+ALL_HEIGHT = 650;
+cellsize = 30;
+begin_x = 20;
+begin_y = 20;
+end_x = 590;
+end_y = 590;
+WIDTH = end_x - begin_x;
+HEIGHT = end_y - begin_y;
+x_cnt = WIDTH // cellsize;
+y_cnt = HEIGHT // cellsize;
+board_size_W = WIDTH // cellsize + 1;
+board_size_H = HEIGHT // cellsize + 1;
+
 
 dir = []      
     # 八个方向 顺时针         
@@ -41,5 +50,10 @@ status = {
         0: 10,
         1 : 5,
         2: 0
+    },
+    0 : {
+        0 : 0,
+        1 : -10,
+        2 : -100
     }
 }
