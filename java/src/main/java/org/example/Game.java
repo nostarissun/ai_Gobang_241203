@@ -46,6 +46,13 @@ public class Game {
         JFrame jf = new JFrame("五子棋");
         Container contain = jf.getContentPane();
         
+        for(int i = 0; i < board_size_H; i++)
+        {
+            for(int j = 0; j < board_size_W; j++)
+            {
+                chess_board[i][j] = 0;
+            }
+        }
         DrawChessBoard boardPanel = new DrawChessBoard();
         
         
@@ -138,24 +145,21 @@ class PlaceChess extends DrawChessBoard{
             {
                 if (gamerun && cur == 1) 
                 {
-                    // 提交MouseClick相关的耗时操作到线程池执行
-           
-                        MouseClick(e);
-                  
+                      MouseClick(e);
                 } 
-                
+
                 else if (gamerun && cur == 2) {
-                    // 提交异步任务到线程池执行
+                 
                   
-                        int x = -1, y = -1;
-                        String serverName = "172.17.226.23";
+                        int r = -1, c = -1;
+                        String serverName = "localhost";
                         int servePort = 12000;
                         byte[] buffer = new byte[1024];
                         int bytesRead = 0;
                         String modifiedSentence = "";
 
                         try {
-                            // 创建套接字并连接到服务器
+                            
                             Socket clientSocket = new Socket(serverName, servePort);
 
                             String sentence = "";
@@ -176,26 +180,26 @@ class PlaceChess extends DrawChessBoard{
                             }
                             
 
-                            // 向服务器发送数据
+                           
                             OutputStream outputStream = clientSocket.getOutputStream();
                             outputStream.write(sentence.getBytes());
 
-                            // 接收服务器返回的数据
+                            
                             bytesRead = clientSocket.getInputStream().read(buffer);
                             modifiedSentence = new String(buffer, 0, bytesRead);
 
                             clientSocket.close();
                             String[] newstr = modifiedSentence.split(",");
-                            x = Integer.parseInt(newstr[0]);
-                            y = Integer.parseInt(newstr[1]);
-                            if (x == -1 || y == -1) {
+                            r = Integer.parseInt(newstr[0]);
+                            c = Integer.parseInt(newstr[1]);
+                            if (r == -1 || c == -1) {
                                 System.exit(0);
                             }
 
 
-                            chess_board[y][x] = 2;
+                            chess_board[r][c] = 2;
 
-                            // 在UI线程上更新UI，确保线程安全
+                         
                             
                                  
                                 Graphics2D g2d = (Graphics2D) getGraphics();
@@ -203,12 +207,12 @@ class PlaceChess extends DrawChessBoard{
                                 int cellSize = Game.cellsize;
                                 
                                 // (real_x - Game.begin_x) / Game.cellsize = t
-                                g2d.fillOval(x * cellSize - 10 + Game.begin_x, y * cellSize - 10 + Game.begin_y, 20, 20);
+                                g2d.fillOval(c * cellSize - 10 + Game.begin_x, r * cellSize - 10 + Game.begin_y, 20, 20);
     
                                 if (judge_win(cur)) {
                                     gamerun = false;
                                 }
-                                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!" + x + y);
+                                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!" + c + r);
 
 
                         } catch (IOException a) {
@@ -247,7 +251,7 @@ class PlaceChess extends DrawChessBoard{
 
         if(real_x > Game.end_x || real_x < Game.begin_x || real_y > Game.end_y || real_y < Game.begin_y){
             System.out.println("鼠标点击不合法");
-            return;
+            return ;
         }
 
         real_x = get_min_location(real_xlocation, real_x, Game.board_size_W);
@@ -277,7 +281,7 @@ class PlaceChess extends DrawChessBoard{
             gamerun = false;
         }
      
-
+        return;
         // put_to_ai(chess_board);
         // System.out.println("\n\n\n" + this.cur);
         
@@ -318,7 +322,7 @@ class PlaceChess extends DrawChessBoard{
                     int cnt = 0;
                     for(int m = 0; m < 5; m++)
                     {
-                        if(i + m * dx < Game.board_size_W && i + m * dx >= 0 && j + m * dy  < Game.board_size_H && j + m * dy >= 0 && chess_board[i + m * dx][j + m * dy] == chess)cnt++;
+                        if(i + m * dx < Game.board_size_H && i + m * dx >= 0 && j + m * dy  < Game.board_size_W && j + m * dy >= 0 && chess_board[i + m * dx][j + m * dy] == chess)cnt++;
                     }
                     if(cnt == 5){
                         if(cur == 1)

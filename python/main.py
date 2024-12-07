@@ -4,17 +4,25 @@ import socket
 
 # 下白棋
 # 黑棋是1， 白棋是2
-chess_board = [[0] * const.board_size_W] * const.board_size_W
+# chess_board = [[0] * const.board_size_W] * const.board_size_W
+chess_board = []
+for i in range(const.board_size_H):
+    t = []
+    for j in range(const.board_size_W):
+        t.append(0)
+    chess_board.append(t)
+
+
 
 def get_evaluate(r: int, c: int) -> int:
     global chess_board
-    cnt2 = [0] * 8
-    cnt1 = [0] * 8
+    cnt2 = [0, 0, 0, 0, 0, 0 ,0, 0]
+    cnt1 = [0, 0, 0, 0, 0, 0 ,0, 0]
     idx = 0
     for dir in const.dir:
         for i in range(1, 9):
-            r1 = r + dir[0] * i
-            c1 = c + dir[1] * i
+            r1 = r + dir[1] * i
+            c1 = c + dir[0] * i
 
             if c1 >= const.board_size_W or c1 < 0 or r1 >= const.board_size_H or r1 < 0 :
                 break
@@ -28,7 +36,7 @@ def get_evaluate(r: int, c: int) -> int:
                 break
             if chess_board[r1][c1] == 2:
                 cnt2[idx] += 1
-                break
+        
         idx += 1
 
     res = 0
@@ -42,30 +50,35 @@ def get_evaluate(r: int, c: int) -> int:
 
 def place_where():
     pos = []
-    res = 0
+    res = float('-inf')
     global chess_board
-    for y in range(const.board_size_H):
-        for x in range(const.board_size_W):
-            # print(r)
-            # print(c)
 
-            if chess_board[y][x] != 0:
-                continue
-            if res <= get_evaluate(y, x):
-                res = get_evaluate(y, x)
-                pos = [x, y]
+
+    # for i in range(const.board_size_H):
+    #     for j in range(const.board_size_W):
+    #         print(chess_board[i][j], end='')
+    #     print()
+    # print("!!!!!!!!!!!!!!!!!!!!!!!!")
+
+    for r in range(const.board_size_H):
+        for c in range(const.board_size_W):
+            if chess_board[r][c] == 0 and res < get_evaluate(r, c):
+                res = get_evaluate(r, c)
+                pos = [r, c]
+            # if chess_board[r][c] == 0:
+            #     return [r, c]
     return pos
 
 
 def handle_connection():
     global chess_board
     serveport = 12000
-    global chess_board
+  
     servesocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     servesocket.bind(('', serveport))
     servesocket.listen(1)
-    print("准备好了\n")
+    print("运行中...\n")
     cnt = 1
     while True:
         connectionsocket, addr = servesocket.accept()
@@ -88,10 +101,6 @@ def handle_connection():
             print()
         print("!!!!!!!!!!!!!!!!!!!!!!!!")
 
-        for i in range(0, const.board_size_H):
-            for j in range(0, const.board_size_W):
-                print(chess_board[i][j], end='')
-            print()
 
 
         print("已处理" + str(cnt) + "条\n")
@@ -102,8 +111,9 @@ def handle_connection():
         # num = [cnt % 15 + 5, cnt % 15 + 5]
 
         num = place_where()
+        print(num)
         s = str(num[0]) + "," + str(num[1])
-        print(s)
+        # print(s)
         connectionsocket.send(s.encode())
         connectionsocket.close()
 
