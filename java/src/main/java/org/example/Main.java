@@ -29,7 +29,7 @@ public class Main {
     }
 public static void open_game(JFrame win, Container contain){
     Game game = new Game();
-    game.open();
+    game.open(win);
 
 }
     public static void main_page(JFrame windows, Container contain){
