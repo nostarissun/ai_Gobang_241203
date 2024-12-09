@@ -302,7 +302,7 @@ class PlaceChess extends DrawChessBoard{
                     int cnt = 0;
                     for(int m = 0; m < 5; m++)
                     {
-                        if(i + m * dx < Game.board_size_H && i + m * dx >= 0 && j + m * dy  < Game.board_size_W && j + m * dy >= 0 && chess_board[i + m * dx][j + m * dy] == chess)cnt++;
+                        if(i + m * dy < Game.board_size_H && i + m * dy >= 0 && j + m * dx  < Game.board_size_W && j + m * dx >= 0 && chess_board[i + m * dy][j + m * dx] == chess)cnt++;
                     }
                     if(cnt == 5){
                         if(cur == 1)
