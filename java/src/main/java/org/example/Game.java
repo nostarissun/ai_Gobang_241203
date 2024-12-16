@@ -22,8 +22,8 @@ public class Game {
     public static final int cellsize = 30;
     public static final int begin_x = 20;
     public static final int begin_y = 20;
-    public static final int end_x = 590;
-    public static final int end_y = 590;
+    public static final int end_x = 350;   //590
+    public static final int end_y = 350;
     public static final int WIDTH = end_x - begin_x;
     public static final int HEIGHT = end_y - begin_y;
     public static final int x_cnt = WIDTH / cellsize;
