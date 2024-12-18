@@ -13,7 +13,7 @@ public class Main {
     public static void main(String args[]){
         JFrame jf = new JFrame("五子棋");
         Container contain = jf.getContentPane();
-        
+        jf.setResizable(false);  //锁死大小
         
         jf.setSize(X,Y);
         jf.setLocation(320,240);
@@ -29,8 +29,12 @@ public class Main {
     }
 public static void open_game(JFrame win, Container contain){
     Game game = new Game();
+    
+    Container element = win.getContentPane();
+    element.removeAll();
+    element.revalidate();
+    element.repaint();
     game.open(win);
-
 }
     public static void main_page(JFrame windows, Container contain){
         
@@ -39,7 +43,7 @@ public static void open_game(JFrame win, Container contain){
         JLabel main_label = new JLabel("五子棋AI对战");
         main_label.setFont(new Font("SansSerif", Font.BOLD, 18));
         main_label.setBounds(X / 2 - 70, 0, 200, 30); // 设置标签的位置和大小
-        contain.add(main_label);
+        
 
         
         JButton button1 = new JButton("游客登录");
@@ -54,16 +58,15 @@ public static void open_game(JFrame win, Container contain){
         button2.setBounds(X / 2 - 70, Y / 3 + 30 + 50, 100, 30);
         button3.setBounds(X / 2 - 70, Y / 3 + 110 + 50, 100, 30);
         button4.setBounds(X / 2 - 70, Y / 3 + 190 + 50, 100, 30);
-        // ImageIcon icon1 = new ImageIcon("C://Users//联想//Desktop//ai五子棋课设//label.png"); // 替换为实际图标路径
-        // button1.setIcon(icon1);
-//         button1.setHorizontalTextPosition(SwingConstants.CENTER);
-// button1.setVerticalTextPosition(SwingConstants.BOTTOM);
+
 
 
         windows.add(button1);
         windows.add(button2);
         windows.add(button3);
         windows.add(button4);
+
+        contain.add(main_label);
 
         button4.addActionListener(new ActionListener() {
             @Override
