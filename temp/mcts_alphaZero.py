@@ -40,11 +40,7 @@ class TreeNode(object):
                    key=lambda act_node: act_node[1].get_value(c_puct))
 
     def update(self, leaf_value):
-        '''
-        移动平均原理：
-        移动平均的基本思想是在不断获取新的数据时，通过合理的加权计算，
-        使得估计值能够逐渐 “跟上” 数据的变化趋势，同时又不会因为单次新数据的波动而产生过大的偏差，能够平滑地反映整体的平均水平
-'''
+
         self._n_visits += 1
 
         self._Q += 1.0*(leaf_value - self._Q) / self._n_visits
@@ -128,7 +124,7 @@ class MCTS(object):
         node.update_recursive(-leaf_value)
 
     def do_move(self, action, state, availables):
-        '''默认移动白棋'''
+        '''默认ai移动白棋'''
         state[action] = 2
         availables.remove(action)
 
@@ -174,9 +170,10 @@ class MCTS(object):
             state_copy = copy.deepcopy(state)
             availables_copy = copy.deepcopy(self.availables)
             self._playout(state_copy, availables_copy)
-
+        #获取所有的动作极其概率
         act_visits = [(act, node._n_visits)
                       for act, node in self._root._children.items()]
+        #解包，将二者分离
         acts, visits = zip(*act_visits)
         act_probs = softmax(1.0/temp * np.log(np.array(visits) + 1e-10))
 
@@ -190,8 +187,7 @@ class MCTS(object):
         else:
             self._root = TreeNode(None, 1.0)
 
-    def __str__(self):
-        return "MCTS"
+
 
 
 class MCTSPlayer(object):
@@ -205,8 +201,6 @@ class MCTSPlayer(object):
         self.mcts = MCTS(self.board, self.availables, self.last_move, c_puct, n_playout)
         self._is_selfplay = is_selfplay
 
-    def set_player_ind(self, p):
-        self.player = p
 
     def reset_player(self):
         self.mcts.update_with_move(-1)
@@ -228,11 +222,9 @@ class MCTSPlayer(object):
                 return move, move_probs
             else:
                 return move
-        else:
-            print("WARNING: the board is full")
 
-    def __str__(self):
-        return "MCTS {}".format(self.player)
+
+
 
 
 

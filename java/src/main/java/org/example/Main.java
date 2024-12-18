@@ -8,16 +8,16 @@ import java.awt.event.ActionEvent;
 
 
 public class Main {
-    public static final int X = 800;
-    public static final int Y = 650;
+    public static final int X = 650;
+    public static final int Y = 500;
     public static void main(String args[]){
         JFrame jf = new JFrame("五子棋");
         Container contain = jf.getContentPane();
         jf.setResizable(false);  //锁死大小
         
         jf.setSize(X,Y);
-        jf.setLocation(320,240);
-        
+        // jf.setLocation();
+        jf.setLocationRelativeTo(null);
 
         main_page(jf, contain);
         

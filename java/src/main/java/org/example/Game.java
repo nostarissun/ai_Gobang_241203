@@ -20,8 +20,8 @@ import java.awt.event.ActionEvent;
 
 
 public class Game {
-    public static final int ALL_WIDTH = 800;
-    public static final int ALL_HEIGHT = 650;
+    public static final int ALL_WIDTH = 650;
+    public static final int ALL_HEIGHT = 500;
     public static final int cellsize = 30;
     public static final int begin_x = 20;
     public static final int begin_y = 20;
@@ -64,7 +64,7 @@ public class Game {
         element.repaint();
 
         root.setSize(ALL_WIDTH,ALL_HEIGHT);
-        root.setLocation(320,240);
+        // root.setLocation(320,240);
         
         root.setVisible(true);
         root.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -104,7 +104,7 @@ int choose_difficulty(JFrame root){
     JOptionPane.showOptionDialog(
         root,
         panel,
-        "选择难度",
+        "选择难度（默认为入门难度）",
         JOptionPane.DEFAULT_OPTION,
         JOptionPane.PLAIN_MESSAGE,
         null,
@@ -230,7 +230,7 @@ class PlaceChess extends DrawChessBoard{
                                 
                                 bytesRead = clientSocket.getInputStream().read(buffer);
                                 modifiedSentence = new String(buffer, 0, bytesRead);
-        
+                                System.out.print(modifiedSentence);
                                 clientSocket.close();
                                 String[] newstr = modifiedSentence.split(",");
                                 r = Integer.parseInt(newstr[0]);

@@ -55,9 +55,9 @@ def handle_connection():
         num = get_res(board, available,last_move)
 
         print(num)
-        # s = str(num // 12) + "," + str(num % 12)
+        s = str(num // 12) + "," + str(num % 12)
         # print(s)
-        s = str(num)
+        # s = str(num)
         #go y / x
         connectionsocket.send(s.encode())
         connectionsocket.close()

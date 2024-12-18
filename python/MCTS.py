@@ -74,7 +74,7 @@ class TreeNode(object):
         """
         递归更新所有父节点的Q
         """
-        # If it is not root, this node's parent should be updated first.
+     
         if self._parent:
             self._parent.update_recursive(-leaf_value)
         self.update(leaf_value)
@@ -154,8 +154,7 @@ class MCTS(object):
         else:
             self._root = TreeNode(None, 1.0)
 
-    def __str__(self):
-        return "MCTS"
+
 
 
 class MCTSPlayer(object):
@@ -185,15 +184,7 @@ class MCTSPlayer(object):
             #将可用动作和对应概率整合成一个变量
             move_probs[list(acts)] = probs
             if self._is_selfplay:
-                '''0.75*probs：这部分将原始的动作概率列表 probs 中的每个概率值都乘以 0.75。其目的是保留大部分（这里是 75% 的权重）基于 MCTS 搜索得到的原始概率信息，
-                体现了对已有搜索经验和评估结果的一定依赖，使得选择的动作依然在一定程度上倾向于那些过往模拟搜索认为比较好的动作。
-                0.25*np.random.dirichlet(0.3*np.ones(len(probs)))：
-                np.random.dirichlet(0.3*np.ones(len(probs)))：这是生成狄利克雷噪声的关键部分。
-                np.random.dirichlet 函数用于生成符合狄利克雷分布的随机向量，其参数 0.3*np.ones(len(probs)) 表示狄利克雷分布的浓度参数（concentration parameter）。
-                这里创建了一个长度与可用动作数量（即 len(probs)）相同的向量，每个元素都是 0.3，以此作为狄利克雷分布的参数。
-                生成的随机向量的每个元素都在 (0, 1) 区间内，且所有元素之和为 1，这个随机向量就代表了一种随机的概率分布情况，也就是所谓的狄利克雷噪声。
-                通过添加这种噪声，可以为每个可用动作引入一定的随机性，鼓励探索那些原本按照纯 MCTS 搜索可能概率较低、不太会被选择，但实际上可能具有潜在价值的动作，避免模型陷入局部最优策略。
-                前面乘以 0.25 则是确定了狄利克雷噪声在最终混合概率中所占的权重，即给这个随机的概率分布赋予了 25% 的权重，与前面 0.75*probs 中的 75% 权重相结合，共同构成了最终用于选择动作的混合概率。'''
+                '''加入狄利克雷噪声，增加随机性，避免过拟合'''
                 move = np.random.choice(
                     acts,
                     p=0.75*probs + 0.25*np.random.dirichlet(0.3*np.ones(len(probs)))
@@ -209,9 +200,4 @@ class MCTSPlayer(object):
                 return move, move_probs
             else:
                 return move
-        # else:
-        #     print("WARNING: the board is full")
-    '''__str__ 是一个特殊方法（也被称为 “魔术方法” 或 “双下划线方法”），它定义了一个类的实例对象被转换为字符串时的表示形式。
-当你使用 print() 函数打印该类的实例，或者通过 str() 函数将实例对象转换为字符串时，就会调用这个 __str__ 方法来获取相应的字符串表示内容。'''
-    def __str__(self):
-        return "MCTS {}".format(self.player)
+
