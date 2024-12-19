@@ -175,6 +175,7 @@ class MCTS(object):
                       for act, node in self._root._children.items()]
         #解包，将二者分离
         acts, visits = zip(*act_visits)
+        #1e-10避免出现零，temp温度参数
         act_probs = softmax(1.0/temp * np.log(np.array(visits) + 1e-10))
 
         return acts, act_probs
@@ -213,8 +214,9 @@ class MCTSPlayer(object):
         if len(sensible_moves) > 0:
             acts, probs = self.mcts.get_move_probs(self.board, temp)
             move_probs[list(acts)] = probs
+            #概率转权重，随机避免局部最优
             move = np.random.choice(acts, p=probs)
-
+            # move = np.max(acts)
             self.mcts.update_with_move(-1)
 
 

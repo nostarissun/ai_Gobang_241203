@@ -8,7 +8,7 @@ from policy_value_net import PolicyValueNet
 
 
 
-class TrainPipeline():
+class Train():
     def __init__(self, init_model=None):
        
 
@@ -157,11 +157,11 @@ class TrainPipeline():
                 loss, entropy = self.policy_update()
 
             if (i+1) % self.check_freq == 0:
-                print("current self-play batch: {}".format(i+1))
+                print("current selfplay batch: {}".format(i+1))
                 win_ratio = self.policy_evaluate()
                 self.policy_value_net.save_model('./current_policy.model')
                 if win_ratio > self.best_win_ratio:
-                    print("New best policy!!!!!!!!")
+                    print("new policy!!!!!!!!")
                     self.best_win_ratio = win_ratio
                     
                     self.policy_value_net.save_model('./best_policy.model')
@@ -173,5 +173,5 @@ class TrainPipeline():
 
 
 if __name__ == '__main__':
-    training_pipeline = TrainPipeline()
+    training_pipeline = Train()
     training_pipeline.run()

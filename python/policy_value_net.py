@@ -128,7 +128,7 @@ class PolicyValueNet():
 
 
         log_act_probs, value = self.policy_value_net(state_batch)
-
+            #均方误差损失
         value_loss = F.mse_loss(value.view(-1), winner_batch)
         policy_loss = -torch.mean(torch.sum(mcts_probs*log_act_probs, 1))
         loss = value_loss + policy_loss

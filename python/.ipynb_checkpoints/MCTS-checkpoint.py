@@ -41,8 +41,14 @@ class TreeNode(object):
         """
         选择新节点
         """
-        return max(self._children.items(),
-                   key=lambda act_node: act_node[1].get_value(c_puct))
+        mv = float('inf')
+        best_act_node = None
+        for act, node in self._children.items():
+            new_v = node.get_value(c_puct)
+            if new_v > mv:
+                mv = new_v
+                best_act_node = (act, node)
+        return best_act_node
     
     def get_value(self, c_puct):
         """
@@ -72,13 +78,7 @@ class TreeNode(object):
         if self._parent:
             self._parent.update_recursive(-leaf_value)
         self.update(leaf_value)
-    def expand(self, action_priors):
-        '''
-        生成新的子节点,传入各个动作及概率
-        '''
-        for action, prob in action_priors:
-            if action not in self._children:
-                self._children[action] = TreeNode(self, prob)
+
 
 
     def is_leaf(self):
