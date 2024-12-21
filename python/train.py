@@ -13,16 +13,16 @@ class Train():
        
 
         '''
-            self.learn_rate：学习率，用于神经网络的训练。
-            self.lr_multiplier：学习率乘数，用于调整学习率。
-            self.temp：温度参数，用于控制 MCTS 中的探索和利用平衡。
-            self.n_playout：每次 AI 决策时进行的 MCTS 模拟次数。
-            self.c_puct：MCTS 中的 UCT 参数，用于平衡探索和利用。
-            self.buffer_size：存储训练数据的缓冲区大小。
-            self.batch_size：每次训练时使用的批次大小。
-            self.data_buffer：使用 deque 创建一个双端队列，用于存储训练数据，其最大长度为 buffer_size。
-            self.play_batch_size：每次自我对弈时使用的批次大小。
-            self.epochs：训练时的迭代轮数。
+            self.learn_rate：学习率，用于神经网络的训练
+            self.lr_multiplier：学习率乘数，用于调整学习率
+            self.temp：温度参数，用于控制 MCTS 中的探索和利用平衡
+            self.n_playout：每次 AI 决策时进行的 MCTS 模拟次数
+            self.c_puct：MCTS 中的 UCT 参数，用于平衡探索和利用
+            self.buffer_size：存储训练数据的缓冲区大小
+            self.batch_size：每次训练时使用的批次大小
+            self.data_buffer：使用 deque 创建一个双端队列，用于存储训练数据，其最大长度为 buffer_size
+            self.play_batch_size：每次自我对弈时使用的批次大小
+            self.epochs：训练时的迭代轮数
             '''
 
         self.board_width = 20
